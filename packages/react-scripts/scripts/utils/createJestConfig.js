@@ -21,19 +21,19 @@ module.exports = (resolve, rootDir, isEjecting) => {
   // TODO: I don't know if it's safe or not to just use / as path separator
   // in Jest configs. We need help from somebody with Windows to determine this.
   const config = {
-    collectCoverageFrom: ['src/**/*.{js,jsx}'],
-    setupFiles: [resolve('config/polyfills.js')],
+    collectCoverageFrom: ['src/**/*.{ts,tsx}'],
+    setupFiles: ['src/setupTests.js', resolve('config/polyfills.js')],
     setupTestFrameworkScriptFile: setupTestsFile,
     testMatch: [
-      '<rootDir>/src/**/__tests__/**/*.js?(x)',
-      '<rootDir>/src/**/?(*.)(spec|test).js?(x)',
+      '<rootDir>/src/**/__tests__/**/*.ts?(x)',
+      '<rootDir>/src/**/?(*.)(spec|test).ts?(x)',
     ],
     testEnvironment: 'node',
     testURL: 'http://localhost',
     transform: {
-      '^.+\\.(js|jsx)$': isEjecting
-        ? '<rootDir>/node_modules/babel-jest'
-        : resolve('config/jest/babelTransform.js'),
+      '.(ts|tsx)': isEjecting
+        ? '<rootDir>/node_modules/ts-jest/preprocessor.js'
+        : resolve('config/jest/transform.js'),
       '^.+\\.css$': resolve('config/jest/cssTransform.js'),
       '^(?!.*\\.(js|jsx|css|json)$)': resolve('config/jest/fileTransform.js'),
     },
@@ -41,7 +41,16 @@ module.exports = (resolve, rootDir, isEjecting) => {
     moduleNameMapper: {
       '^react-native$': 'react-native-web',
     },
-    moduleFileExtensions: ['web.js', 'js', 'json', 'web.jsx', 'jsx', 'node'],
+    moduleFileExtensions: [
+      'web.js',
+      'js',
+      'json',
+      'web.jsx',
+      'jsx',
+      'node',
+      'ts',
+      'tsx',
+    ],
   };
   if (rootDir) {
     config.rootDir = rootDir;
