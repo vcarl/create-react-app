@@ -7,9 +7,6 @@
  */
 'use strict';
 
-const babelJest = require('babel-jest');
+const tsJest = require('ts-jest');
 
-module.exports = babelJest.createTransformer({
-  presets: [require.resolve('babel-preset-react-app')],
-  babelrc: false,
-});
+module.exports = tsJest.transpileIfTypescript;
